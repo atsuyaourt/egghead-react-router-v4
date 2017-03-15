@@ -7,35 +7,26 @@ import {
 
 import './App.css';
 
-const Links = () => (
-  <nav>
-    <Link to="/home">Home</Link>
-    <Link to="/about">About</Link>
-  </nav>
-);
-
-const Header = ({match}) => (
-  <div className="header">
-    <Route path="/:page"
-      render={({match}) => (
-        <h1>Item: {match.params.page} header</h1>)} />
+const Home = () => (<h1>Home</h1>)
+const Menu = () => (
+  <div>
+    <h1>Menu</h1>
+    <Link to="/menu/food">Food</Link>
+    <Link to="/menu/drink">Drinks</Link>
+    <Link to="/menu/sides">Sides</Link>
+    <Route
+      path="/menu/:section"
+      render={({match}) => <h2>{match.params.section}</h2>} />
   </div>
-);
-
-const Content = ({match}) => (
-  <div className="content">
-    <Route path="/:page"
-      render={({match}) => (
-        <p>Item: {match.params.page} content</p>)} />
-  </div>
-);
+)
 
 const App = () => (
   <Router>
     <div>
-      <Links />
-      <Header />
-      <Content />
+      <Link to="/">Home</Link>
+      <Link to="/menu">Menu</Link>
+      <Route exact path="/" render={Home} />
+      <Route path="/menu" render={Menu} />
     </div>
   </Router>
 );
