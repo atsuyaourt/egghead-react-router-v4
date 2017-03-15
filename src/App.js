@@ -2,31 +2,35 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Redirect
 } from 'react-router-dom';
 
 import './App.css';
 
-const Home = () => (<h1>Home</h1>)
-const Menu = () => (
-  <div>
-    <h1>Menu</h1>
-    <Link to="/menu/food">Food</Link>
-    <Link to="/menu/drink">Drinks</Link>
-    <Link to="/menu/sides">Sides</Link>
-    <Route
-      path="/menu/:section"
-      render={({match}) => <h2>{match.params.section}</h2>} />
-  </div>
-)
+const loggedin = false;
+
+const Links = () => (
+  <nav>
+    <Link to="/">Home</Link>
+    <Link to="/old">Old</Link>
+    <Link to="/new">New</Link>
+    <Link to="/protected">Protected</Link>
+  </nav>
+);
 
 const App = () => (
   <Router>
     <div>
-      <Link to="/">Home</Link>
-      <Link to="/menu">Menu</Link>
-      <Route exact path="/" render={Home} />
-      <Route path="/menu" render={Menu} />
+      <Links />
+      <Route exact path="/" render={() => <h1>Home</h1>} />
+      <Route path="/new" render={() => <h1>New</h1>} />
+      <Route path="/old" render={() =>
+        <Redirect to="/new" />} />
+      <Route path="/protected" render={() =>
+        loggedin
+        ? <h1>Welcome to the protected page</h1>
+        : <Redirect to="/new/Login" />} />
     </div>
   </Router>
 );
